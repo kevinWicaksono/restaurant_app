@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/Pages/pg_home.dart';
 import 'package:restaurant_app/Styling/text_theme.dart';
 import 'package:restaurant_app/Widgets/wg_splashscreen.dart';
 
@@ -14,65 +15,39 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
         textTheme: myTextTheme,
-        useMaterial3: true,
-      ),
-      home: WgSplashScreen(
-        appName: 'Dicoding Kitchen',
-        imgSplash: Image.asset('assets/dicoding_logo.png'),
-        splashDuration: 3,
-        afterSplash: const MyHomePage(
-          title: 'Dicoding Kitchen App',
+        // useMaterial3: true,
+        scaffoldBackgroundColor: Colors.deepPurple[50],
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.deepPurple[700],
+          titleTextStyle: myTextTheme.titleMedium!.copyWith(
+            fontSize: 22,
+            color: Colors.white,
+          ),
         ),
+        primaryColor: Colors.deepPurple,
       ),
+      initialRoute: Splash.routeName,
+      routes: {
+        Splash.routeName: (context) => const Splash(),
+        PgHome.routeName: (context) => const PgHome(),
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+class Splash extends StatelessWidget {
+  const Splash({super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  static const String routeName = '/';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    return WgSplashScreen(
+      appName: 'Dicoding Restaurant App',
+      imgSplash: Image.asset('assets/dicoding_logo.png'),
+      splashDuration: 3,
+      afterSplash: PgHome.routeName,
     );
   }
 }

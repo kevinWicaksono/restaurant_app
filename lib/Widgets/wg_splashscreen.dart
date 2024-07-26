@@ -8,6 +8,7 @@ class WgSplashScreen extends StatefulWidget {
   final dynamic imgSplash;
   final int splashDuration;
   final dynamic afterSplash;
+  final dynamic afterSplashArgs;
 
   const WgSplashScreen({
     super.key,
@@ -15,6 +16,7 @@ class WgSplashScreen extends StatefulWidget {
     this.imgSplash,
     required this.splashDuration,
     required this.afterSplash,
+    this.afterSplashArgs,
   });
 
   @override
@@ -25,10 +27,13 @@ class _WgSplashScreenState extends State<WgSplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        Duration(seconds: widget.splashDuration),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => widget.afterSplash)));
+    Timer(Duration(seconds: widget.splashDuration), () {
+      widget.afterSplash is String
+          ? Navigator.pushReplacementNamed(context, widget.afterSplash,
+              arguments: widget.afterSplashArgs)
+          : Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => widget.afterSplash));
+    });
   }
 
   @override
@@ -67,9 +72,12 @@ class _WgSplashScreenState extends State<WgSplashScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          widget.appName,
-                          style: myTextTheme.titleMedium,
+                        Hero(
+                          tag: 'appName',
+                          child: Text(
+                            widget.appName,
+                            style: myTextTheme.titleMedium,
+                          ),
                         ),
                       ],
                     ),
