@@ -18,16 +18,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         textTheme: myTextTheme,
-        // useMaterial3: true,
-        scaffoldBackgroundColor: Colors.deepPurple[50],
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.deepPurple[700],
-          titleTextStyle: myTextTheme.titleMedium!.copyWith(
-            fontSize: 22,
-            color: Colors.white,
-          ),
+        colorScheme: const ColorScheme.light(
+          primary: Color(0xFFa32600),
+          surface: Color(0xFFed5f34),
         ),
-        primaryColor: Colors.deepPurple,
       ),
       initialRoute: Splash.routeName,
       routes: {

@@ -4,10 +4,17 @@ import 'package:restaurant_app/Pages/pg_detail.dart';
 import 'package:restaurant_app/Styling/text_theme.dart';
 import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
 
-class PgHome extends StatelessWidget {
+class PgHome extends StatefulWidget {
   const PgHome({super.key});
 
   static const String routeName = '/pgHome';
+
+  @override
+  State<PgHome> createState() => _PgHomeState();
+}
+
+class _PgHomeState extends State<PgHome> {
+  TextEditingController searchController = TextEditingController();
 
   List<VmRestaurants> parseJson(String? json) {
     if (json == null) {
@@ -19,65 +26,157 @@ class PgHome extends StatelessWidget {
   }
 
   Widget _buildListItem(BuildContext context, VmRestaurants vmRestaurant) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: ListTile(
-        onTap: () => Navigator.pushNamed(context, PgDetail.routeName,
-            arguments: vmRestaurant),
-        leading: Hero(
-          tag: vmRestaurant.id,
-          child: Image.network(
-            vmRestaurant.imageUrl,
-            fit: BoxFit.cover,
-            width: 100,
-            errorBuilder: (ctx, error, _) =>
-                const Center(child: Icon(Icons.error)),
+    if (searchController.text.isEmpty) {
+      return Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              width: 1.5,
+              color: Color(0xFFfcd8cc),
+            ),
           ),
         ),
-        title: Text(
-          vmRestaurant.name,
-          style: myTextTheme.titleMedium!.copyWith(fontWeight: FontWeight.w700),
+        padding: const EdgeInsets.only(
+          left: 10,
+          right: 10,
+          bottom: 5,
         ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.location_on_rounded,
-                  color: Colors.red[800],
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  vmRestaurant.city,
-                  style: myTextTheme.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.w700),
-                ),
-              ],
+        child: ListTile(
+          onTap: () => Navigator.pushNamed(context, PgDetail.routeName,
+              arguments: vmRestaurant),
+          leading: Hero(
+            tag: vmRestaurant.id,
+            child: Image.network(
+              vmRestaurant.imageUrl,
+              fit: BoxFit.cover,
+              width: 100,
+              errorBuilder: (ctx, error, _) =>
+                  const Center(child: Icon(Icons.error)),
             ),
-            Row(
-              children: [
-                Icon(
-                  Icons.star_sharp,
-                  color: Colors.yellow[700],
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  '${vmRestaurant.rating}',
-                  style: myTextTheme.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.w700),
-                ),
-              ],
-            ),
-          ],
+          ),
+          title: Text(
+            vmRestaurant.name,
+            style:
+                myTextTheme.titleMedium!.copyWith(fontWeight: FontWeight.w700),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.location_on_rounded,
+                    color: Colors.red[800],
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    vmRestaurant.city,
+                    style: myTextTheme.bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.star_sharp,
+                    color: Colors.yellow[700],
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    '${vmRestaurant.rating}',
+                    style: myTextTheme.bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
+
+    return vmRestaurant.name
+            .toLowerCase()
+            .contains(searchController.text.toLowerCase())
+        ? Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  width: 1.5,
+                  color: Color(0xFFfcd8cc),
+                ),
+              ),
+            ),
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              bottom: 5,
+            ),
+            child: ListTile(
+              onTap: () => Navigator.pushNamed(context, PgDetail.routeName,
+                  arguments: vmRestaurant),
+              leading: Hero(
+                tag: vmRestaurant.id,
+                child: Image.network(
+                  vmRestaurant.imageUrl,
+                  fit: BoxFit.cover,
+                  width: 100,
+                  errorBuilder: (ctx, error, _) =>
+                      const Center(child: Icon(Icons.error)),
+                ),
+              ),
+              title: Text(
+                vmRestaurant.name,
+                style: myTextTheme.titleMedium!
+                    .copyWith(fontWeight: FontWeight.w700),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on_rounded,
+                        color: Colors.red[800],
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        vmRestaurant.city,
+                        style: myTextTheme.bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star_sharp,
+                        color: Colors.yellow[700],
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        '${vmRestaurant.rating}',
+                        style: myTextTheme.bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        : Container();
   }
 
   FutureBuilder<String> listViewBuilder(BuildContext context) {
@@ -92,9 +191,6 @@ class PgHome extends StatelessWidget {
             return Column(
               children: [
                 _buildListItem(context, restaurant[index]),
-                Divider(
-                  color: Colors.deepPurple[200],
-                ),
               ],
             );
           },
@@ -110,43 +206,94 @@ class PgHome extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              backgroundColor: innerBoxIsScrolled
-                  ? Colors.deepPurple
-                  : Colors.deepPurple[50],
-              title: innerBoxIsScrolled
-                  ? Container()
-                  : Hero(
-                      tag: 'appName',
-                      child: Text(
+              flexibleSpace: FlexibleSpaceBar(
+                background: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    top: 40,
+                    right: 16,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
                         'Dicoding Restaurant App',
-                        style: myTextTheme.titleLarge!.copyWith(
+                        style: myTextTheme.headlineMedium!.copyWith(
+                          color: Colors.white,
                           fontWeight: FontWeight.w700,
-                          color: Colors.black,
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Restaurant recommendation for you',
+                        style: myTextTheme.bodyMedium!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               snap: true,
               pinned: true,
               floating: true,
-              elevation: 2,
-              forceElevated: innerBoxIsScrolled,
               bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(64),
+                preferredSize: const Size.fromHeight(96),
                 child: Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(
-                    left: 20,
-                    top: 10,
-                    right: 20,
-                    bottom: 20,
+                    left: 24,
+                    top: 16,
+                    right: 24,
+                    bottom: 16,
                   ),
-                  child: Text(
-                    'Restaurant recommendation for you',
+                  child: TextField(
+                    controller: searchController,
                     style: myTextTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: innerBoxIsScrolled ? Colors.white : Colors.black,
+                      color: Colors.white,
                     ),
+                    decoration: InputDecoration(
+                      hintText: 'Search Restaurant Name',
+                      hintStyle: myTextTheme.bodyLarge!.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onChanged: (String value) {
+                      setState(() {});
+                    },
                   ),
+                  // child: innerBoxIsScrolled || searchController.text.isNotEmpty
+                  //     ? TextField(
+                  //         controller: searchController,
+                  //         style: myTextTheme.bodyLarge!.copyWith(
+                  //             fontWeight: FontWeight.w600,
+                  //             color: Colors.white,
+                  //           ),
+                  //         decoration: InputDecoration(
+                  //           hintText: 'Search Restaurant Name',
+                  //           hintStyle: myTextTheme.bodyLarge!.copyWith(
+                  //             fontWeight: FontWeight.w600,
+                  //             color: Colors.white,
+                  //           ),
+                  //           labelStyle: myTextTheme.bodyLarge!.copyWith(
+                  //             fontWeight: FontWeight.w600,
+                  //             color: Colors.white,
+                  //           ),
+                  //         ),
+                  //         onChanged: (String value) {
+                  //           setState(() {});
+                  //         },
+                  //       )
+                  //     : Text(
+                  //         'Recommendation for you',
+                  //         textAlign: TextAlign.left,
+                  //         style: myTextTheme.bodyLarge!.copyWith(
+                  //           fontWeight: FontWeight.w600,
+                  //           color: Colors.white,
+                  //         ),
+                  //       ),
                 ),
               ),
             ),
