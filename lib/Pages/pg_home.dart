@@ -1,19 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:restaurant_app/Pages/pg_detail.dart';
 import 'package:restaurant_app/Styling/text_theme.dart';
 import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
 
-class PgHome extends StatefulWidget {
+class PgHome extends StatelessWidget {
   const PgHome({super.key});
+
   static const String routeName = '/pgHome';
 
-  @override
-  State<PgHome> createState() => _PgHomeState();
-}
-
-class _PgHomeState extends State<PgHome> {
   List<VmRestaurants> parseJson(String? json) {
     if (json == null) {
       return [];
@@ -23,14 +18,16 @@ class _PgHomeState extends State<PgHome> {
     return parsed.map((json) => VmRestaurants.fromJson(json)).toList();
   }
 
-  Widget _buildListItem(BuildContext context, VmRestaurants vmRestaurants) {
+  Widget _buildListItem(BuildContext context, VmRestaurants vmRestaurant) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ListTile(
+        onTap: () => Navigator.pushNamed(context, PgDetail.routeName,
+            arguments: vmRestaurant),
         leading: Hero(
-          tag: vmRestaurants.id,
+          tag: vmRestaurant.id,
           child: Image.network(
-            vmRestaurants.imageUrl,
+            vmRestaurant.imageUrl,
             fit: BoxFit.cover,
             width: 100,
             errorBuilder: (ctx, error, _) =>
@@ -38,7 +35,7 @@ class _PgHomeState extends State<PgHome> {
           ),
         ),
         title: Text(
-          vmRestaurants.name,
+          vmRestaurant.name,
           style: myTextTheme.titleMedium!.copyWith(fontWeight: FontWeight.w700),
         ),
         subtitle: Column(
@@ -55,7 +52,7 @@ class _PgHomeState extends State<PgHome> {
                   width: 8,
                 ),
                 Text(
-                  vmRestaurants.city,
+                  vmRestaurant.city,
                   style: myTextTheme.bodyMedium!
                       .copyWith(fontWeight: FontWeight.w700),
                 ),
@@ -71,7 +68,7 @@ class _PgHomeState extends State<PgHome> {
                   width: 8,
                 ),
                 Text(
-                  '${vmRestaurants.rating}',
+                  '${vmRestaurant.rating}',
                   style: myTextTheme.bodyMedium!
                       .copyWith(fontWeight: FontWeight.w700),
                 ),
@@ -88,13 +85,13 @@ class _PgHomeState extends State<PgHome> {
       future: DefaultAssetBundle.of(context)
           .loadString('assets/local_restaurant.json'),
       builder: (context, snapshot) {
-        final List<VmRestaurants> articles = parseJson(snapshot.data);
+        final List<VmRestaurants> restaurant = parseJson(snapshot.data);
         return ListView.builder(
-          itemCount: articles.length,
+          itemCount: restaurant.length,
           itemBuilder: (context, index) {
             return Column(
               children: [
-                _buildListItem(context, articles[index]),
+                _buildListItem(context, restaurant[index]),
                 Divider(
                   color: Colors.deepPurple[200],
                 ),
@@ -119,22 +116,22 @@ class _PgHomeState extends State<PgHome> {
               title: innerBoxIsScrolled
                   ? Container()
                   : Hero(
-                    tag: 'appName',
-                    child: Text(
+                      tag: 'appName',
+                      child: Text(
                         'Dicoding Restaurant App',
                         style: myTextTheme.titleLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                           color: Colors.black,
                         ),
                       ),
-                  ),
+                    ),
               snap: true,
               pinned: true,
               floating: true,
               elevation: 2,
               forceElevated: innerBoxIsScrolled,
               bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(56),
+                preferredSize: const Size.fromHeight(64),
                 child: Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(
@@ -146,7 +143,7 @@ class _PgHomeState extends State<PgHome> {
                   child: Text(
                     'Restaurant recommendation for you',
                     style: myTextTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                       color: innerBoxIsScrolled ? Colors.white : Colors.black,
                     ),
                   ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/Pages/pg_detail.dart';
 import 'package:restaurant_app/Pages/pg_home.dart';
 import 'package:restaurant_app/Styling/text_theme.dart';
+import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
 import 'package:restaurant_app/Widgets/wg_splashscreen.dart';
 
 void main() {
@@ -31,6 +33,9 @@ class MyApp extends StatelessWidget {
       routes: {
         Splash.routeName: (context) => const Splash(),
         PgHome.routeName: (context) => const PgHome(),
+        PgDetail.routeName: (context) => PgDetail(
+            vmRestaurant:
+                ModalRoute.of(context)?.settings.arguments as VmRestaurants),
       },
     );
   }
