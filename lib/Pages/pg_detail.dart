@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/Styling/text_theme.dart';
 import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
 
 class PgDetail extends StatelessWidget {

@@ -18,9 +18,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         textTheme: myTextTheme,
-        colorScheme: const ColorScheme.light(
-          primary: Color(0xFFa32600),
-          surface: Color(0xFFed5f34),
+        colorScheme: ColorScheme.light(
+          primary: const Color(0xFFa32600),
+          surface: const Color(0xFFed5f34),
+          background: Colors.amber[50],
         ),
       ),
       initialRoute: Splash.routeName,
