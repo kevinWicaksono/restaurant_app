@@ -1,5 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:restaurant_app/Styling/text_theme.dart';
 import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
+import 'package:restaurant_app/Widgets/wg_back_button.dart';
+import 'package:restaurant_app/Widgets/wg_grid_menu.dart';
 
 class PgDetail extends StatelessWidget {
   final VmRestaurants vmRestaurant;
@@ -11,79 +17,155 @@ class PgDetail extends StatelessWidget {
 
   static const String routeName = '/pgDetail';
 
-  Widget _buildTile(VmRestaurants vmRestaurant) {
-    return ListTile(
-      title: Text(vmRestaurant.name),
-      subtitle: Text(
-        vmRestaurant.description,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 4,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: SliverAppBarDelegate(
-              minHeight: 80,
-              maxHeight: 160,
-              child: Image.network(
-                vmRestaurant.imageUrl,
-                fit: BoxFit.cover,
+    Random random = Random();
+    List foodImgUrl = [
+      'assets/foodImage/orek.jpg',
+      'assets/foodImage/steak.jpg',
+      'assets/foodImage/sandwich.jpg',
+      'assets/foodImage/salad.jpg',
+      'assets/foodImage/ramen.jpg',
+      'assets/foodImage/pasta.jpg',
+    ];
+    List drinkImage = [
+      'assets/drinkImage/mojito.jpg',
+      'assets/drinkImage/matcha.jpg',
+      'assets/drinkImage/milkshake.jpg',
+      'assets/drinkImage/tea.jpg',
+      'assets/drinkImage/coffee.jpg',
+      'assets/drinkImage/cocktail.jpg',
+      'assets/drinkImage/juice.jpg',
+    ];
+
+    return Stack(
+      children: [
+        Scaffold(
+          body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: SliverAppBarDelegate(
+                    minHeight: 80,
+                    maxHeight: 160,
+                    child: Hero(
+                      tag: vmRestaurant.id,
+                      child: Image.network(
+                        vmRestaurant.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                )
+              ];
+            },
+            body: Container(
+              color: Colors.white,
+              child: ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      bottom: 20,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          vmRestaurant.name,
+                          style: myTextTheme.headlineMedium,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_rounded,
+                              color: Colors.red[800],
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              vmRestaurant.city,
+                              style: myTextTheme.titleMedium,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star_sharp,
+                              color: Colors.yellow[700],
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              '${vmRestaurant.rating}',
+                              style: myTextTheme.bodyMedium!
+                                  .copyWith(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              '(${random.nextInt(5000)} reviews)',
+                              style: myTextTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          vmRestaurant.description,
+                          textAlign: TextAlign.justify,
+                          style: myTextTheme.bodyMedium,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Foods',
+                          style: myTextTheme.headlineMedium,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        WgGridMenu(
+                          vmRestaurant: vmRestaurant,
+                          imageList: foodImgUrl,
+                          random: random,
+                          price: '45.000',
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Drinks',
+                          style: myTextTheme.headlineMedium,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        WgGridMenu(
+                          vmRestaurant: vmRestaurant,
+                          imageList: drinkImage,
+                          random: random,
+                          price: '20.000',
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          // SliverList(
-          //   delegate: SliverChildBuilderDelegate(
-          //     (BuildContext context, int index) {
-          //       return Padding(
-          //         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          //         child: Container(
-          //           color: index % 2 == 0 ? Colors.green : Colors.greenAccent,
-          //           height: 80,
-          //           alignment: Alignment.center,
-          //           child: Text(
-          //             vmRestaurant.menus.foods[index].name,
-          //             style: const TextStyle(fontSize: 30),
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //     childCount: vmRestaurant.menus.foods.length,
-          //   ),
-          // ),
-          SliverGrid(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              mainAxisSpacing: 0.0,
-              crossAxisSpacing: 0.0,
-              maxCrossAxisExtent: 400.0,
-              childAspectRatio: 1.0,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: Container(
-                    color: index % 2 == 0 ? Colors.green : Colors.greenAccent,
-                    height: 80,
-                    alignment: Alignment.center,
-                    child: Text(
-                      vmRestaurant.menus.foods[index].name,
-                      // style: const TextStyle(fontSize: 30),
-                    ),
-                  ),
-                );
-              },
-              childCount: vmRestaurant.menus.foods.length,
-            ),
-          )
-        ],
-      ),
+        ),
+        const WgBackButton(),
+      ],
     );
   }
 }
