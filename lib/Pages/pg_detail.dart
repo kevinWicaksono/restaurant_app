@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:restaurant_app/Styling/text_theme.dart';
 import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
 import 'package:restaurant_app/Widgets/wg_back_button.dart';
