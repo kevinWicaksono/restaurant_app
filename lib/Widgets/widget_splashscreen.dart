@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:restaurant_app/Styling/text_theme.dart';
+import 'package:restaurant_app/Common/text_theme.dart';
 
-class WgSplashScreen extends StatefulWidget {
+class WidgetSplashScreen extends StatefulWidget {
   final String appName;
   final dynamic imgSplash;
   final int splashDuration;
   final dynamic afterSplash;
   final dynamic afterSplashArgs;
 
-  const WgSplashScreen({
+  const WidgetSplashScreen({
     super.key,
     required this.appName,
     this.imgSplash,
@@ -20,10 +20,10 @@ class WgSplashScreen extends StatefulWidget {
   });
 
   @override
-  State<WgSplashScreen> createState() => _WgSplashScreenState();
+  State<WidgetSplashScreen> createState() => _WidgetSplashScreenState();
 }
 
-class _WgSplashScreenState extends State<WgSplashScreen> {
+class _WidgetSplashScreenState extends State<WidgetSplashScreen> {
   @override
   void initState() {
     super.initState();

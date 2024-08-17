@@ -1,13 +1,13 @@
-class VmRestaurants {
+class ModelRestaurants {
   String id;
   String name;
   String description;
   String imageUrl;
   String city;
   double rating;
-  Menus menus;
+  ModelMenus menus;
 
-  VmRestaurants({
+  ModelRestaurants({
     required this.id,
     required this.name,
     required this.description,
@@ -17,14 +17,14 @@ class VmRestaurants {
     required this.menus,
   });
 
-  factory VmRestaurants.fromJson(Map<String, dynamic> input) => VmRestaurants(
+  factory ModelRestaurants.fromJson(Map<String, dynamic> input) => ModelRestaurants(
         id: input['id'],
         name: input['name'],
         description: input['description'],
         imageUrl: input['pictureId'],
         city: input['city'],
         rating: input['rating']?.toDouble(),
-        menus: Menus.fromJson(input['menus']),
+        menus: ModelMenus.fromJson(input['menus']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,16 +38,16 @@ class VmRestaurants {
       };
 }
 
-class Menus {
+class ModelMenus {
   List<Menu> foods;
   List<Menu> drinks;
 
-  Menus({
+  ModelMenus({
     required this.foods,
     required this.drinks,
   });
 
-  factory Menus.fromJson(Map<String, dynamic> input) => Menus(
+  factory ModelMenus.fromJson(Map<String, dynamic> input) => ModelMenus(
         foods: List<Menu>.from(input['foods'].map((x) => Menu.fromJson(x))),
         drinks: List<Menu>.from(input['drinks'].map((x) => Menu.fromJson(x))),
       );

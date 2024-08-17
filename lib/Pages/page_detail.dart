@@ -1,14 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/Styling/text_theme.dart';
-import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
-import 'package:restaurant_app/Widgets/wg_back_button.dart';
-import 'package:restaurant_app/Widgets/wg_grid_menu.dart';
+import 'package:restaurant_app/Common/text_theme.dart';
+import 'package:restaurant_app/Data/Models/model_restaurant.dart';
+import 'package:restaurant_app/Widgets/widget_back_button.dart';
+import 'package:restaurant_app/Widgets/widget_grid_menu.dart';
 
-class PgDetail extends StatelessWidget {
-  final VmRestaurants vmRestaurant;
+class PageDetail extends StatelessWidget {
+  final ModelRestaurants vmRestaurant;
 
-  const PgDetail({
+  const PageDetail({
     super.key,
     required this.vmRestaurant,
   });
@@ -132,7 +132,7 @@ class PgDetail extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        WgGridMenu(
+                        WidgetGridMenu(
                           vmRestaurant: vmRestaurant,
                           imageList: foodImgUrl,
                           random: random,
@@ -148,7 +148,7 @@ class PgDetail extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        WgGridMenu(
+                        WidgetGridMenu(
                           vmRestaurant: vmRestaurant,
                           imageList: drinkImage,
                           random: random,
@@ -162,7 +162,7 @@ class PgDetail extends StatelessWidget {
             ),
           ),
         ),
-        const WgBackButton(),
+        const WidgetBackButton(),
       ],
     );
   }

@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/Styling/text_theme.dart';
-import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
+import 'package:restaurant_app/Common/text_theme.dart';
+import 'package:restaurant_app/Data/Models/model_restaurant.dart';
 
-class WgGridMenu extends StatelessWidget {
-  const WgGridMenu({
+class WidgetGridMenu extends StatelessWidget {
+  const WidgetGridMenu({
     super.key,
     required this.vmRestaurant,
     required this.imageList,
@@ -13,7 +13,7 @@ class WgGridMenu extends StatelessWidget {
     required this.price,
   });
 
-  final VmRestaurants vmRestaurant;
+  final ModelRestaurants vmRestaurant;
   final List imageList;
   final Random random;
   final String price;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/Pages/pg_detail.dart';
-import 'package:restaurant_app/Pages/pg_home.dart';
-import 'package:restaurant_app/Styling/text_theme.dart';
-import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
-import 'package:restaurant_app/Widgets/wg_splashscreen.dart';
+import 'package:restaurant_app/Pages/page_detail.dart';
+import 'package:restaurant_app/Pages/page_home.dart';
+import 'package:restaurant_app/Common/text_theme.dart';
+import 'package:restaurant_app/Data/Models/model_restaurant.dart';
+import 'package:restaurant_app/Widgets/widget_splashscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
       initialRoute: Splash.routeName,
       routes: {
         Splash.routeName: (context) => const Splash(),
-        PgHome.routeName: (context) => const PgHome(),
-        PgDetail.routeName: (context) => PgDetail(
+        PageHome.routeName: (context) => const PageHome(),
+        PageDetail.routeName: (context) => PageDetail(
             vmRestaurant:
-                ModalRoute.of(context)?.settings.arguments as VmRestaurants),
+                ModalRoute.of(context)?.settings.arguments as ModelRestaurants),
       },
     );
   }
@@ -42,11 +42,11 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WgSplashScreen(
+    return WidgetSplashScreen(
       appName: 'Dicoding Restaurant App',
       imgSplash: Image.asset('assets/dicoding_logo.png'),
       splashDuration: 3,
-      afterSplash: PgHome.routeName,
+      afterSplash: PageHome.routeName,
     );
   }
 }

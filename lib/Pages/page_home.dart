@@ -1,31 +1,31 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/Pages/pg_detail.dart';
-import 'package:restaurant_app/Styling/text_theme.dart';
-import 'package:restaurant_app/ViewModels/vm_restaurants.dart';
+import 'package:restaurant_app/Pages/page_detail.dart';
+import 'package:restaurant_app/Common/text_theme.dart';
+import 'package:restaurant_app/Data/Models/model_restaurant.dart';
 
-class PgHome extends StatefulWidget {
-  const PgHome({super.key});
+class PageHome extends StatefulWidget {
+  const PageHome({super.key});
 
   static const String routeName = '/pgHome';
 
   @override
-  State<PgHome> createState() => _PgHomeState();
+  State<PageHome> createState() => _PageHomeState();
 }
 
-class _PgHomeState extends State<PgHome> {
+class _PageHomeState extends State<PageHome> {
   TextEditingController searchController = TextEditingController();
-  List<VmRestaurants> listRestaurants = [];
+  List<ModelRestaurants> listRestaurants = [];
   Random random = Random();
 
-  List<VmRestaurants> parseJson(String? json) {
+  List<ModelRestaurants> parseJson(String? json) {
     if (json == null) {
       return [];
     }
 
     final List parsed = jsonDecode(json)['restaurants'];
-    return parsed.map((json) => VmRestaurants.fromJson(json)).toList();
+    return parsed.map((json) => ModelRestaurants.fromJson(json)).toList();
   }
 
   // app bar widget
@@ -121,7 +121,7 @@ class _PgHomeState extends State<PgHome> {
       future: DefaultAssetBundle.of(context)
           .loadString('assets/local_restaurant.json'),
       builder: (context, snapshot) {
-        final List<VmRestaurants> restaurant = parseJson(snapshot.data);
+        final List<ModelRestaurants> restaurant = parseJson(snapshot.data);
         if (searchController.text.isNotEmpty) {
           listRestaurants.clear();
           for (var item in restaurant) {
@@ -149,7 +149,7 @@ class _PgHomeState extends State<PgHome> {
   }
 
   // item list design
-  Widget _buildListItem(BuildContext context, VmRestaurants vmRestaurant) {
+  Widget _buildListItem(BuildContext context, ModelRestaurants vmRestaurant) {
     return Container(
       decoration: const BoxDecoration(
         border: Border(
@@ -161,7 +161,7 @@ class _PgHomeState extends State<PgHome> {
       ),
       padding: const EdgeInsets.all(10),
       child: ListTile(
-        onTap: () => Navigator.pushNamed(context, PgDetail.routeName,
+        onTap: () => Navigator.pushNamed(context, PageDetail.routeName,
             arguments: vmRestaurant),
         leading: Hero(
           tag: vmRestaurant.id,
