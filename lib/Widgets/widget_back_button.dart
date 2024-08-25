@@ -9,7 +9,7 @@ class WidgetBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(top: 32),
-      color: const Color(0xFFed5f34),
+      color: Theme.of(context).primaryColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(16.0),

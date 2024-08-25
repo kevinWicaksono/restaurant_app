@@ -2,18 +2,18 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/Common/text_theme.dart';
-import 'package:restaurant_app/Data/Models/model_restaurant.dart';
+import 'package:restaurant_app/Data/Models/model_responses.dart';
 
 class WidgetGridMenu extends StatelessWidget {
   const WidgetGridMenu({
     super.key,
-    required this.vmRestaurant,
+    required this.menus,
     required this.imageList,
     required this.random,
     required this.price,
   });
 
-  final ModelRestaurants vmRestaurant;
+  final List<ModelMenuName> menus;
   final List imageList;
   final Random random;
   final String price;
@@ -22,7 +22,7 @@ class WidgetGridMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: vmRestaurant.menus.foods.length,
+      itemCount: menus.length,
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -35,10 +35,15 @@ class WidgetGridMenu extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               boxShadow: const [
                 BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 2,
-                  blurRadius: 1,
-                ),
+                    color: Color.fromARGB(80, 158, 158, 158),
+                    spreadRadius: 2,
+                    blurRadius: 4,
+                    offset: Offset(1, 1)),
+                BoxShadow(
+                    color: Color.fromARGB(80, 255, 255, 255),
+                    spreadRadius: 2,
+                    blurRadius: 4,
+                    offset: Offset(-1, -1)),
               ]),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
@@ -58,7 +63,7 @@ class WidgetGridMenu extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(vmRestaurant.menus.foods[index].name,
+                        Text(menus[index].name,
                             style: myTextTheme.bodyMedium!.copyWith(
                               fontWeight: FontWeight.w700,
                             )),
